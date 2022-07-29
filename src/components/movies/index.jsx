@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { searchMovie } from 'service/movie_api';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams, Link, useLocation } from 'react-router-dom';
 import SearchForm from './searchForm';
 import styles from './movies.module.css';
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
-  // const location = useLocation();
+  const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const handleFormSubmit = query => {
@@ -36,7 +36,9 @@ const Movies = () => {
             {movies.map(movie => {
               return (
                 <li key={movie.id}>
-                  <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
+                  <Link to={`/movies/${movie.id}`} state={{ from: location }}>
+                    {movie.title}
+                  </Link>
                 </li>
               );
             })}

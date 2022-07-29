@@ -1,10 +1,10 @@
 import { useState, useEffect, Suspense } from 'react';
-import { Link, Outlet, useParams, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useParams, useLocation } from 'react-router-dom';
 import { movieDetails } from 'service/movie_api';
 import styles from './moviedetail.module.css';
 
 const MovieDetails = () => {
-  const navigate = useNavigate();
+  const location = useLocation();
   const [movie, setMovie] = useState({});
   const [genres, setGenres] = useState('');
   const { movieId } = useParams();
@@ -18,14 +18,10 @@ const MovieDetails = () => {
 
   return (
     <>
-      <button
-        type="button"
-        onClick={() => {
-          navigate(-1);
-        }}
-      >
-        Go back
-      </button>
+      <Link to={location?.state?.from ?? '/'}>
+        <button type="button">Go back</button>
+      </Link>
+
       <div className={styles.wrapper}>
         <img
           src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`}
